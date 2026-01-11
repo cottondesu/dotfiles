@@ -12,6 +12,15 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# zsh-autosuggestions
+# zsh-completions
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  # セキュリティ警告を無視して補完を有効化するために -u フラグを追加
+  autoload -Uz compinit && compinit -u
+fi
+
 # Customize your settings here...
 # export PATH=$HOME/bin:$PATH
 # alias ...

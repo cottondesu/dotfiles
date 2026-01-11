@@ -10,6 +10,8 @@ brew "rbenv"
 brew "tig"
 brew "zoxide"
 brew "powerlevel10k"
+brew "zsh-completions"
+brew "zsh-autosuggestions"
 
 cask "1password"
 cask "antigravity"
