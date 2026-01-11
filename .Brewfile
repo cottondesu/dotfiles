@@ -9,6 +9,7 @@ brew "lazygit"
 brew "rbenv"
 brew "tig"
 brew "zoxide"
+brew "powerlevel10k"
 
 cask "1password"
 cask "antigravity"

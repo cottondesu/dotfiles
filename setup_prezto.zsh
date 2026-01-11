@@ -33,4 +33,16 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   fi
 done
 
+# 3. Install Powerlevel10k
+if [ ! -d "${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/external/powerlevel10k" ]; then
+  echo "Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/external/powerlevel10k"
+  ln -s "${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/external/powerlevel10k/powerlevel10k.zsh-theme" "${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/functions/prompt_powerlevel10k_setup"
+fi
+
+# Source Prezto to enable 'prompt' command
+source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+
+prompt -s powerlevel10k
+
 echo "Prezto setup complete."
