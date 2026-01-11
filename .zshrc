@@ -12,6 +12,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# zoxide
+eval "$(zoxide init zsh)"
+
 # zsh-autosuggestions
 # zsh-completions
 if type brew &>/dev/null; then
