@@ -16,7 +16,9 @@ zsh ./setup_prezto.zsh
 echo "[3/3] Installing Apps with Homebrew..."
 sh ./homebrew_install.sh
 
-echo "=========================================="
-echo "All setup finished successfully!"
-echo "Please restart your terminal to apply changes."
-echo "=========================================="
+if [ $? -eq 0 ]; then
+  echo "Installation successful. Reloading shell..."
+  exec zsh -l
+else
+  echo "Installation failed. Please check the logs."
+fi
