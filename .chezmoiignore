@@ -1,0 +1,10 @@
+.Brewfile
+install.sh
+README.md
+cleanup_symlinks.sh
+mise.toml
+Brewfile
+.chezmoi.toml
+.chezmoiscripts
+.chezmoi/scripts
+docs/

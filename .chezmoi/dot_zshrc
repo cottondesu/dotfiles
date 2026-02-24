@@ -1,0 +1,72 @@
+# ==============================================================================
+# 1. Path & Environment (Prezto読み込み前に必須)
+# ==============================================================================
+# miseのパス設定 (Homebrew & Manual installation)
+if [ -f ~/.local/bin/mise ]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+elif command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
+# ==============================================================================
+# 2. Powerlevel10k Instant Prompt
+# ==============================================================================
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ==============================================================================
+# 3. Source Prezto
+# ==============================================================================
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# ==============================================================================
+# 4. Tool Initializations (Preztoの後に読み込む)
+# ==============================================================================
+# fzf の初期化 (Preztoにモジュールがないため、ここで直接読み込む)
+if (( $+commands[fzf] )); then
+  source <(fzf --zsh)
+fi
+
+# zoxide の初期化
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+
+# ==============================================================================
+# 5. Aliases & Custom Functions
+# ==============================================================================
+# eza: 標準のlsエイリアスを上書き
+if (( $+commands[eza] )); then
+  alias ls='eza --icons --git'
+  alias ll='eza -alF --icons --git'
+  alias la='eza -a --icons --git'
+  alias lt='eza --tree --icons'
+fi
+
+# lb: ブランチ切り替え (fzfプレビュー付き)
+alias -g lb='$(git branch --all | grep -v "HEAD" | fzf --prompt "GIT BRANCH> " --height 40% --reverse --info=inline --preview "git log --oneline --graph --color=always {1}" | sed -e "s/^\*\s*//g" | tr -d " ")'
+
+# de: dockerコンテナに入る
+alias de='docker exec -it $(docker ps | fzf --header-lines=1 --height 40% --reverse | awk "{print \$1}") /bin/bash'
+
+# Ctrl+g: ghqリポジトリ一覧から選択して移動
+function fzf-src () {
+  local src=$(ghq list --full-path | fzf --query "$LBUFFER")
+  if [ -n "$src" ]; then
+    BUFFER="cd $src"
+    zle accept-line
+  fi
+  zle -R
+}
+zle -N fzf-src
+bindkey '^g' fzf-src
+
+# ==============================================================================
+# 6. Powerlevel10k Theme (Preztoのprompt moduleは無効化済み)
+# ==============================================================================
+# Powerlevel10k本体を読み込む（設定ファイルの前に行う必要がある）
+[[ ! -f ${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/external/powerlevel10k/powerlevel10k.zsh-theme ]] || source ${ZDOTDIR:-$HOME}/.zprezto/modules/prompt/external/powerlevel10k/powerlevel10k.zsh-theme
+
+# Powerlevel10k設定を読み込む
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

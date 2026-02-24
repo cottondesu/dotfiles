@@ -1,0 +1,14 @@
+{{- $email := env "CHEZMOI_EMAIL" -}}
+{{- if not $email -}}
+{{- $email = promptStringOnce . "email" "Email address" -}}
+{{- end -}}
+{{- $name := env "CHEZMOI_NAME" -}}
+{{- if not $name -}}
+{{- $name = promptStringOnce . "name" "Your name" -}}
+{{- end -}}
+
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+    email = {{ $email | quote }}
+    name = {{ $name | quote }}
