@@ -1,0 +1,8 @@
+[tools]
+bats = "latest"
+eza = "latest"
+fzf = "latest"
+gh = "latest"
+ghq = "latest"
+lazygit = "latest"
+zoxide = "latest"
